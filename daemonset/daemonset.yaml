@@ -5,29 +5,29 @@ metadata:
   namespace: logging
   labels:
     app: fluentd-logging
-  spec:
-    selector:
-      matchLabels:
+spec:
+  selector:
+    matchLabels:
+      name: fluentd
+  template:
+    metadata:
+      labels:
         name: fluentd
-    template:
-      metadata:
-        labels:
-          name: fluentd
-      spec:
-        containers:
-        - name: fluentd-elasticsearch
-          image: quay.io/fluentd_elasticsearch/fluentd:v2.5.2
-          resources:
-            limits:
-              memory: 200Mi
-            requests:
-              cpu: 100m
-              memory: 200Mi
-            volumeMounts:
-            - name: varlog
-              mountPath: /var/log
-          terminationGracePeriodSeconds: 30
-          volumes:
+    spec:
+      containers:
+      - name: fluentd-elasticsearch
+        image: quay.io/fluentd_elasticsearch/fluentd:v2.5.2
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
+          volumeMounts:
           - name: varlog
-            hostPath:
-              path: /var/log
+            mountPath: /var/log
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - name: varlog
+          hostPath:
+            path: /var/log
